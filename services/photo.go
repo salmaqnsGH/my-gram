@@ -9,15 +9,15 @@ type PhotoService interface {
 	CreatePhoto(input models.Photo) (models.Photo, error)
 }
 
-type service struct {
+type photoService struct {
 	repository repositories.PhotoRepository
 }
 
-func NewPhotoService(repository repositories.PhotoRepository) *service {
-	return &service{repository}
+func NewPhotoService(repository repositories.PhotoRepository) *photoService {
+	return &photoService{repository}
 }
 
-func (s *service) CreatePhoto(input models.Photo) (models.Photo, error) {
+func (s *photoService) CreatePhoto(input models.Photo) (models.Photo, error) {
 	photo := models.Photo{}
 
 	photo.Title = input.Title

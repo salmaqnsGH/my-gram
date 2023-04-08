@@ -9,6 +9,7 @@ import (
 type PhotoRepository interface {
 	Create(photo models.Photo) (models.Photo, error)
 	FindAll() ([]models.Photo, error)
+	FindByUserID(userID uint) ([]models.Photo, error)
 }
 
 type photoRepository struct {
@@ -32,6 +33,17 @@ func (r *photoRepository) Create(photo models.Photo) (models.Photo, error) {
 func (r *photoRepository) FindAll() ([]models.Photo, error) {
 	var photos []models.Photo
 	err := r.db.Find(&photos).Error
+
+	if err != nil {
+		return photos, err
+	}
+
+	return photos, nil
+}
+
+func (r *photoRepository) FindByUserID(userID uint) ([]models.Photo, error) {
+	var photos []models.Photo
+	err := r.db.Where("user_id = ?", userID).Find(&photos).Error
 
 	if err != nil {
 		return photos, err

@@ -29,7 +29,8 @@ func New(db *gorm.DB) *gin.Engine {
 	photoRouter := r.Group("photos")
 	{
 		photoRouter.POST("/", photoController.CreatePhoto)
-		photoRouter.GET("/", photoController.GetPhotos)
+		// photoRouter.GET("/", photoController.GetPhotos)
+		photoRouter.GET("/", photoController.GetPhotosByUserID)
 	}
 
 	return r

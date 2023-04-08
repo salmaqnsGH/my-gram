@@ -47,6 +47,7 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 
 	input.Title = title
 	input.Caption = caption
+	// TODO: userID from auth
 	userIDUint, err := strconv.ParseUint(userID, 10, 64)
 	if err != nil {
 		fmt.Println("Failed to convert string to uint:", err)
@@ -66,11 +67,28 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newPhoto)
 }
 
-func (h *photoController) GetPhotos(ctx *gin.Context) {
-	photos, err := h.service.GetPhotos()
+func (c *photoController) GetPhotos(ctx *gin.Context) {
+	photos, err := c.service.GetPhotos()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, photos)
+}
+
+func (c *photoController) GetPhotosByUserID(ctx *gin.Context) {
+	// TODO: userID from auth
+	userIDInput := 2
+
+	userID := uint(userIDInput)
+	photos, err := c.service.GetPhotosByUserID(userID)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
 			"error":    err.Error(),
 		})
 		return

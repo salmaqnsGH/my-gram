@@ -20,6 +20,8 @@ func NewPhotoService(repository repositories.PhotoRepository) *photoService {
 func (s *photoService) CreatePhoto(input models.Photo) (models.Photo, error) {
 	photo := models.Photo{}
 
+	// TODO : userID from auth
+	photo.UserID = input.UserID
 	photo.Title = input.Title
 	photo.PhotoUrl = input.PhotoUrl
 	photo.Caption = input.Caption

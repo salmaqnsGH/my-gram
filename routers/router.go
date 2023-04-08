@@ -12,12 +12,19 @@ import (
 func New(db *gorm.DB) *gin.Engine {
 
 	photoRepository := repositories.NewPhotoRepository(db)
-
 	photoService := services.NewPhotoService(photoRepository)
-
 	photoController := controllers.NewPhotoController(photoService)
 
+	userRepository := repositories.NewUserRepository(db)
+	userService := services.NewUserService(userRepository)
+	userController := controllers.NewUserController(userService)
+
 	r := gin.Default()
+
+	userRouter := r.Group("users")
+	{
+		userRouter.POST("/register", userController.RegisterUser)
+	}
 
 	photoRouter := r.Group("photos")
 	{

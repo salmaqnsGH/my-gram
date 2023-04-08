@@ -65,3 +65,16 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, newPhoto)
 }
+
+func (h *photoController) GetPhotos(ctx *gin.Context) {
+	photos, err := h.service.GetPhotos()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, photos)
+}

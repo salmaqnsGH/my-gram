@@ -8,6 +8,7 @@ import (
 
 type PhotoRepository interface {
 	Create(photo models.Photo) (models.Photo, error)
+	FindAll() ([]models.Photo, error)
 }
 
 type photoRepository struct {
@@ -26,4 +27,15 @@ func (r *photoRepository) Create(photo models.Photo) (models.Photo, error) {
 	}
 
 	return photo, nil
+}
+
+func (r *photoRepository) FindAll() ([]models.Photo, error) {
+	var photos []models.Photo
+	err := r.db.Find(&photos).Error
+
+	if err != nil {
+		return photos, err
+	}
+
+	return photos, nil
 }

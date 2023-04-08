@@ -7,6 +7,7 @@ import (
 
 type PhotoService interface {
 	CreatePhoto(input models.Photo) (models.Photo, error)
+	GetPhotos() ([]models.Photo, error)
 }
 
 type photoService struct {
@@ -32,4 +33,13 @@ func (s *photoService) CreatePhoto(input models.Photo) (models.Photo, error) {
 	}
 
 	return newPhoto, nil
+}
+
+func (s *photoService) GetPhotos() ([]models.Photo, error) {
+	photos, err := s.repository.FindAll()
+	if err != nil {
+		return photos, err
+	}
+
+	return photos, nil
 }

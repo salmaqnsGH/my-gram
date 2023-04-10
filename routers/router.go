@@ -19,6 +19,10 @@ func New(db *gorm.DB) *gin.Engine {
 	userService := services.NewUserService(userRepository)
 	userController := controllers.NewUserController(userService)
 
+	commentRepository := repositories.NewCommentRepository(db)
+	commentService := services.NewCommentService(commentRepository)
+	commentController := controllers.NewCommentController(commentService)
+
 	r := gin.Default()
 
 	userRouter := r.Group("users")
@@ -33,6 +37,11 @@ func New(db *gorm.DB) *gin.Engine {
 		// photoRouter.GET("/", photoController.GetPhotosByUserID)
 		photoRouter.PUT("/:photoID", photoController.UpdatePhoto)
 		photoRouter.DELETE("/:photoID", photoController.DeletePhoto)
+	}
+
+	commentRouter := r.Group("comments")
+	{
+		commentRouter.POST("/", commentController.CreateComment)
 	}
 
 	return r

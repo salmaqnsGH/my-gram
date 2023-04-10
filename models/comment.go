@@ -6,3 +6,9 @@ type Comment struct {
 	PhotoID uint   `gorm:"not null" json:"photo_id"`
 	Message string `gorm:"not null" json:"message"`
 }
+
+type CreateCommentInput struct {
+	UserID  uint   `json:"user_id"`
+	PhotoID uint   `json:"photo_id"`
+	Message string `json:"message"`
+}

@@ -75,5 +75,27 @@ func (c *commentController) UpdateComment(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, updatedComment)
+	ctx.JSON(http.StatusOK, updatedComment)
+}
+
+func (c *commentController) GetCommentByID(ctx *gin.Context) {
+	inputID, err := strconv.Atoi(ctx.Param("commentID"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	comment, err := c.service.GetCommentByID(uint(inputID))
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, comment)
 }

@@ -11,6 +11,7 @@ type CommentService interface {
 	GetCommentByID(commentID uint) (models.Comment, error)
 	GetComments() ([]models.Comment, error)
 	GetCommentsByPhotoID(photoID uint) ([]models.Comment, error)
+	DeleteComment(commentID uint) error
 }
 
 type commentService struct {
@@ -77,4 +78,13 @@ func (s *commentService) GetCommentsByPhotoID(photoID uint) ([]models.Comment, e
 	}
 
 	return comments, nil
+}
+
+func (s *commentService) DeleteComment(commentID uint) error {
+	err := s.repository.Delete(commentID)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

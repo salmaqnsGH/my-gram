@@ -134,3 +134,25 @@ func (c *commentController) GetCommentsByPhotoID(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, comments)
 }
+
+func (c *commentController) DeleteComment(ctx *gin.Context) {
+	commentID, err := strconv.Atoi(ctx.Param("commentID"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	err = c.service.DeleteComment(uint(commentID))
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, "Deleted")
+}

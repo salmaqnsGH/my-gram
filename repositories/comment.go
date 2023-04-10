@@ -12,6 +12,7 @@ type CommentRepository interface {
 	FindByID(commentID uint) (models.Comment, error)
 	FindAll() ([]models.Comment, error)
 	FindByPhotoID(photoID uint) ([]models.Comment, error)
+	Delete(commentID uint) error
 }
 
 type commentRepository struct {
@@ -70,4 +71,13 @@ func (r *commentRepository) FindByPhotoID(photoID uint) ([]models.Comment, error
 	}
 
 	return comments, nil
+}
+
+func (r *commentRepository) Delete(commentID uint) error {
+	var comment models.Comment
+	if err := r.db.Where("id = ?", commentID).First(&comment).Delete(&comment).Error; err != nil {
+		return err
+	}
+
+	return nil
 }

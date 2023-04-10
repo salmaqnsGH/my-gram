@@ -44,6 +44,7 @@ func New(db *gorm.DB) *gin.Engine {
 		commentRouter.POST("/", commentController.CreateComment)
 		commentRouter.GET("/", commentController.GetComments)
 		commentRouter.GET("/:commentID", commentController.GetCommentByID)
+		commentRouter.GET("/all/:photoID", commentController.GetCommentsByPhotoID)
 		commentRouter.PUT("/:commentID", commentController.UpdateComment)
 	}
 

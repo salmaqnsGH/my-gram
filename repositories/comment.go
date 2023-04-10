@@ -11,6 +11,7 @@ type CommentRepository interface {
 	Update(commentID uint, comment models.Comment) (models.Comment, error)
 	FindByID(commentID uint) (models.Comment, error)
 	FindAll() ([]models.Comment, error)
+	FindByPhotoID(photoID uint) ([]models.Comment, error)
 }
 
 type commentRepository struct {
@@ -56,6 +57,15 @@ func (r *commentRepository) FindAll() ([]models.Comment, error) {
 	err := r.db.Find(&comments).Error
 
 	if err != nil {
+		return comments, err
+	}
+
+	return comments, nil
+}
+
+func (r *commentRepository) FindByPhotoID(photoID uint) ([]models.Comment, error) {
+	var comments []models.Comment
+	if err := r.db.Where("photo_id = ?", photoID).Find(&comments).Error; err != nil {
 		return comments, err
 	}
 

@@ -20,7 +20,7 @@ func NewCommentController(service services.CommentService) *commentController {
 func (c *commentController) CreateComment(ctx *gin.Context) {
 	var input models.CreateCommentInput
 	// TODO: fix input ID
-	input.PhotoID = 1
+	input.PhotoID = 2
 	input.UserID = 1
 
 	// TODO: validate userID and photoID
@@ -102,6 +102,28 @@ func (c *commentController) GetCommentByID(ctx *gin.Context) {
 
 func (c *commentController) GetComments(ctx *gin.Context) {
 	comments, err := c.service.GetComments()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, comments)
+}
+
+func (c *commentController) GetCommentsByPhotoID(ctx *gin.Context) {
+	inputID, err := strconv.Atoi(ctx.Param("photoID"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	comments, err := c.service.GetCommentsByPhotoID(uint(inputID))
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"messsage": "Internal server error",

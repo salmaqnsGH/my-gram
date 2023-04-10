@@ -4,6 +4,7 @@ import (
 	"my-gram/models"
 	"my-gram/services"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,4 +44,36 @@ func (c *commentController) CreateComment(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, newComment)
+}
+
+func (c *commentController) UpdateComment(ctx *gin.Context) {
+	inputID, err := strconv.Atoi(ctx.Param("commentID"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	var inputData models.UpdateCommentInput
+	err = ctx.ShouldBindJSON(&inputData)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	updatedComment, err := c.service.UpdateComment(uint(inputID), inputData)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, updatedComment)
 }

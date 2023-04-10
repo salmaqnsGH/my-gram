@@ -12,3 +12,7 @@ type CreateCommentInput struct {
 	PhotoID uint   `json:"photo_id"`
 	Message string `json:"message"`
 }
+
+type UpdateCommentInput struct {
+	Message string `json:"message"`
+}

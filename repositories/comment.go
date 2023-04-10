@@ -10,6 +10,7 @@ type CommentRepository interface {
 	Create(comment models.Comment) (models.Comment, error)
 	Update(commentID uint, comment models.Comment) (models.Comment, error)
 	FindByID(commentID uint) (models.Comment, error)
+	FindAll() ([]models.Comment, error)
 }
 
 type commentRepository struct {
@@ -47,4 +48,16 @@ func (r *commentRepository) FindByID(commentID uint) (models.Comment, error) {
 	}
 
 	return comment, nil
+}
+
+func (r *commentRepository) FindAll() ([]models.Comment, error) {
+	var comments []models.Comment
+
+	err := r.db.Find(&comments).Error
+
+	if err != nil {
+		return comments, err
+	}
+
+	return comments, nil
 }

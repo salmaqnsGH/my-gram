@@ -9,6 +9,7 @@ type CommentService interface {
 	CreateComment(input models.CreateCommentInput) (models.Comment, error)
 	UpdateComment(inputID uint, inputData models.UpdateCommentInput) (models.Comment, error)
 	GetCommentByID(commentID uint) (models.Comment, error)
+	GetComments() ([]models.Comment, error)
 }
 
 type commentService struct {
@@ -57,4 +58,13 @@ func (s *commentService) GetCommentByID(commentID uint) (models.Comment, error) 
 	}
 
 	return comment, nil
+}
+
+func (s *commentService) GetComments() ([]models.Comment, error) {
+	comments, err := s.repository.FindAll()
+	if err != nil {
+		return comments, err
+	}
+
+	return comments, nil
 }

@@ -99,3 +99,16 @@ func (c *commentController) GetCommentByID(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, comment)
 }
+
+func (c *commentController) GetComments(ctx *gin.Context) {
+	comments, err := c.service.GetComments()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, comments)
+}

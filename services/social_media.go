@@ -10,6 +10,7 @@ type SocialMediaService interface {
 	GetSocialMediaByID(ID uint) (models.SocialMedia, error)
 	UpdateSocialMedia(inputID uint, inputData models.UpdateSocialMediaInput) (models.SocialMedia, error)
 	GetSocialMedias() ([]models.SocialMedia, error)
+	DeleteSocialMedia(ID uint) error
 }
 
 type socialMediaService struct {
@@ -68,4 +69,13 @@ func (s *socialMediaService) GetSocialMedias() ([]models.SocialMedia, error) {
 	}
 
 	return socialMedias, nil
+}
+
+func (s *socialMediaService) DeleteSocialMedia(ID uint) error {
+	err := s.repository.Delete(ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -11,6 +11,7 @@ type SocialMediaRepository interface {
 	FindByID(ID uint) (models.SocialMedia, error)
 	Update(ID uint, socialMedia models.SocialMedia) (models.SocialMedia, error)
 	FindAll() ([]models.SocialMedia, error)
+	Delete(ID uint) error
 }
 
 type socialMediaRepository struct {
@@ -60,4 +61,13 @@ func (r *socialMediaRepository) FindAll() ([]models.SocialMedia, error) {
 	}
 
 	return socialMedias, nil
+}
+
+func (r *socialMediaRepository) Delete(ID uint) error {
+	var socialMedia models.SocialMedia
+	if err := r.db.Where("id = ?", ID).First(&socialMedia).Delete(&socialMedia).Error; err != nil {
+		return err
+	}
+
+	return nil
 }

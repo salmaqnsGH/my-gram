@@ -109,3 +109,26 @@ func (c *socialMediaController) GetSocialMedias(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, socialMedias)
 }
+
+func (c *socialMediaController) DeleteSocialMedia(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	err = c.service.DeleteSocialMedia(uint(id))
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, "Deleted")
+}

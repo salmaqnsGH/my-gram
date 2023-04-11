@@ -10,6 +10,7 @@ type SocialMediaRepository interface {
 	Create(socialMedia models.SocialMedia) (models.SocialMedia, error)
 	FindByID(ID uint) (models.SocialMedia, error)
 	Update(ID uint, socialMedia models.SocialMedia) (models.SocialMedia, error)
+	FindAll() ([]models.SocialMedia, error)
 }
 
 type socialMediaRepository struct {
@@ -47,4 +48,16 @@ func (r *socialMediaRepository) Update(ID uint, socialMedia models.SocialMedia) 
 	}
 
 	return socialMedia, nil
+}
+
+func (r *socialMediaRepository) FindAll() ([]models.SocialMedia, error) {
+	var socialMedias []models.SocialMedia
+
+	err := r.db.Find(&socialMedias).Error
+
+	if err != nil {
+		return socialMedias, err
+	}
+
+	return socialMedias, nil
 }

@@ -96,3 +96,16 @@ func (c *socialMediaController) UpdateSocialMedia(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, updatedComment)
 }
+
+func (c *socialMediaController) GetSocialMedias(ctx *gin.Context) {
+	socialMedias, err := c.service.GetSocialMedias()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, socialMedias)
+}

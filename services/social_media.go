@@ -8,6 +8,7 @@ import (
 type SocialMediaService interface {
 	CreateSocialMedia(input models.CreateSocialMediaInput) (models.SocialMedia, error)
 	GetSocialMediaByID(ID uint) (models.SocialMedia, error)
+	UpdateSocialMedia(inputID uint, inputData models.UpdateSocialMediaInput) (models.SocialMedia, error)
 }
 
 type socialMediaService struct {
@@ -40,4 +41,21 @@ func (s *socialMediaService) GetSocialMediaByID(ID uint) (models.SocialMedia, er
 	}
 
 	return socialMedia, nil
+}
+
+func (s *socialMediaService) UpdateSocialMedia(inputID uint, inputData models.UpdateSocialMediaInput) (models.SocialMedia, error) {
+	socialMedia, err := s.repository.FindByID(inputID)
+	if err != nil {
+		return socialMedia, err
+	}
+
+	socialMedia.Name = inputData.Name
+	socialMedia.SocialMediaUrl = inputData.SocialMediaUrl
+
+	updatedSocialMedia, err := s.repository.Update(inputID, socialMedia)
+	if err != nil {
+		return updatedSocialMedia, err
+	}
+
+	return updatedSocialMedia, nil
 }

@@ -12,3 +12,8 @@ type CreateSocialMediaInput struct {
 	Name           string `gorm:"not null" json:"name"`
 	SocialMediaUrl string `gorm:"not null" json:"social_media_url"`
 }
+
+type UpdateSocialMediaInput struct {
+	Name           string `gorm:"not null" json:"name"`
+	SocialMediaUrl string `gorm:"not null" json:"social_media_url"`
+}

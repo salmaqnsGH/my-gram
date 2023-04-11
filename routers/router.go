@@ -60,7 +60,7 @@ func New(db *gorm.DB) *gin.Engine {
 		// socialMediaRouter.GET("/", socialMediaController.GetComments)
 		socialMediaRouter.GET("/:id", socialMediaController.GetSocialMediaByID)
 		// socialMediaRouter.GET("/all/:photoID", socialMediaController.GetCommentsByPhotoID)
-		// socialMediaRouter.PUT("/:id", socialMediaController.UpdateComment)
+		socialMediaRouter.PUT("/:id", socialMediaController.UpdateSocialMedia)
 		// socialMediaRouter.DELETE("/:commentID", socialMediaController.DeleteComment)
 
 	}

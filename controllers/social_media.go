@@ -64,3 +64,35 @@ func (c *socialMediaController) GetSocialMediaByID(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, socialMedia)
 }
+
+func (c *socialMediaController) UpdateSocialMedia(ctx *gin.Context) {
+	inputID, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	var inputData models.UpdateSocialMediaInput
+	err = ctx.ShouldBindJSON(&inputData)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	updatedComment, err := c.service.UpdateSocialMedia(uint(inputID), inputData)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, updatedComment)
+}

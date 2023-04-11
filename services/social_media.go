@@ -7,6 +7,7 @@ import (
 
 type SocialMediaService interface {
 	CreateSocialMedia(input models.CreateSocialMediaInput) (models.SocialMedia, error)
+	GetSocialMediaByID(ID uint) (models.SocialMedia, error)
 }
 
 type socialMediaService struct {
@@ -30,4 +31,13 @@ func (s *socialMediaService) CreateSocialMedia(input models.CreateSocialMediaInp
 	}
 
 	return newSocialMedia, nil
+}
+
+func (s *socialMediaService) GetSocialMediaByID(ID uint) (models.SocialMedia, error) {
+	socialMedia, err := s.repository.FindByID(ID)
+	if err != nil {
+		return socialMedia, err
+	}
+
+	return socialMedia, nil
 }

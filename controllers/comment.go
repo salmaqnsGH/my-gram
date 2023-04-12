@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type commentController struct {
@@ -18,12 +19,11 @@ func NewCommentController(service services.CommentService) *commentController {
 }
 
 func (c *commentController) CreateComment(ctx *gin.Context) {
-	var input models.CreateCommentInput
-	// TODO: fix input ID
-	input.PhotoID = 2
-	input.UserID = 1
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
+	userID := uint(userData["user_id"].(float64))
 
-	// TODO: validate userID and photoID
+	var input models.CreateCommentInput
+	input.UserID = userID
 
 	err := ctx.ShouldBindJSON(&input)
 	if err != nil {

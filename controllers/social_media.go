@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type socialMediaController struct {
@@ -18,9 +19,11 @@ func NewSocialMediaController(service services.SocialMediaService) *socialMediaC
 }
 
 func (c *socialMediaController) CreateSocialMedia(ctx *gin.Context) {
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
+	userID := uint(userData["user_id"].(float64))
+
 	var input models.CreateSocialMediaInput
-	// TODO: fix input ID
-	input.UserID = 1
+	input.UserID = userID
 
 	err := ctx.ShouldBindJSON(&input)
 	if err != nil {

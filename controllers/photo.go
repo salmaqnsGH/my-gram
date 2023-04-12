@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type photoController struct {
@@ -22,6 +23,9 @@ func NewPhotoController(service services.PhotoService) *photoController {
 }
 
 func (c *photoController) CreatePhoto(ctx *gin.Context) {
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
+	userID := uint(userData["user_id"].(float64))
+
 	file, err := ctx.FormFile("photo_url")
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -46,10 +50,7 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 	input.PhotoUrl = path
 	input.Title = ctx.PostForm("title")
 	input.Caption = ctx.PostForm("caption")
-
-	// TODO: userID from auth
-	userID := 1
-	input.UserID = uint(userID)
+	input.UserID = userID
 
 	newPhoto, err := c.service.CreatePhoto(input)
 	if err != nil {
@@ -77,10 +78,9 @@ func (c *photoController) GetPhotos(ctx *gin.Context) {
 }
 
 func (c *photoController) GetPhotosByUserID(ctx *gin.Context) {
-	// TODO: userID from auth
-	userIDInput := 2
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
+	userID := uint(userData["user_id"].(float64))
 
-	userID := uint(userIDInput)
 	photos, err := c.service.GetPhotosByUserID(userID)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -94,6 +94,9 @@ func (c *photoController) GetPhotosByUserID(ctx *gin.Context) {
 }
 
 func (c *photoController) UpdatePhoto(ctx *gin.Context) {
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
+	userID := uint(userData["user_id"].(float64))
+
 	photoIDInt, err := strconv.Atoi(ctx.Param("photoID"))
 	if err != nil {
 		ctx.AbortWithError(http.StatusBadRequest, errors.New("Invalid product ID"))
@@ -145,10 +148,7 @@ func (c *photoController) UpdatePhoto(ctx *gin.Context) {
 	photo.PhotoUrl = path
 	photo.Title = title
 	photo.Caption = caption
-
-	// TODO: userID from auth
-	userID := 1
-	photo.UserID = uint(userID)
+	photo.UserID = userID
 
 	updatedPhoto, err := c.service.UpdatePhoto(photoID, photo)
 	if err != nil {

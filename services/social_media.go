@@ -1,8 +1,10 @@
 package services
 
 import (
+	"fmt"
 	"my-gram/models"
 	"my-gram/repositories"
+	"time"
 )
 
 type SocialMediaService interface {
@@ -51,8 +53,16 @@ func (s *socialMediaService) UpdateSocialMedia(inputID uint, inputData models.Up
 		return socialMedia, err
 	}
 
+	inputTime := "2023-04-12T18:30:37.179191+07:00"
+	t, err := time.Parse(time.RFC3339Nano, inputTime)
+	if err != nil {
+		fmt.Println("Failed to parse input time:", err)
+		return socialMedia, err
+	}
+
 	socialMedia.Name = inputData.Name
 	socialMedia.SocialMediaUrl = inputData.SocialMediaUrl
+	socialMedia.UpdatedAt = t
 
 	updatedSocialMedia, err := s.repository.Update(inputID, socialMedia)
 	if err != nil {

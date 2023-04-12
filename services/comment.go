@@ -1,8 +1,10 @@
 package services
 
 import (
+	"fmt"
 	"my-gram/models"
 	"my-gram/repositories"
+	"time"
 )
 
 type CommentService interface {
@@ -43,7 +45,15 @@ func (s *commentService) UpdateComment(inputID uint, inputData models.UpdateComm
 		return comment, err
 	}
 
+	inputTime := "2023-04-12T18:30:37.179191+07:00"
+	t, err := time.Parse(time.RFC3339Nano, inputTime)
+	if err != nil {
+		fmt.Println("Failed to parse input time:", err)
+		return comment, err
+	}
+
 	comment.Message = inputData.Message
+	comment.UpdatedAt = t
 
 	updatedComment, err := s.repository.Update(inputID, comment)
 	if err != nil {

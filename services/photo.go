@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"my-gram/models"
 	"my-gram/repositories"
+	"time"
 )
 
 type PhotoService interface {
@@ -26,7 +27,6 @@ func NewPhotoService(repository repositories.PhotoRepository) *photoService {
 func (s *photoService) CreatePhoto(input models.CreatePhotoInput) (models.Photo, error) {
 	photo := models.Photo{}
 
-	// TODO : userID from auth
 	photo.UserID = input.UserID
 	photo.Title = input.Title
 	photo.PhotoUrl = input.PhotoUrl
@@ -64,10 +64,18 @@ func (s *photoService) UpdatePhoto(ID uint, input models.Photo) (models.Photo, e
 		return photo, err
 	}
 
+	inputTime := "2023-04-12T18:30:37.179191+07:00"
+	t, err := time.Parse(time.RFC3339Nano, inputTime)
+	if err != nil {
+		fmt.Println("Failed to parse input time:", err)
+		return photo, err
+	}
+
 	photo.Caption = input.Caption
 	photo.Title = input.Title
 	photo.UserID = input.UserID
 	photo.PhotoUrl = input.PhotoUrl
+	photo.UpdatedAt = t
 
 	updatedPhoto, err := s.repository.Update(photo)
 	if err != nil {

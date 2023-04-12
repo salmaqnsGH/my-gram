@@ -122,9 +122,11 @@ func (c *photoController) UpdatePhoto(ctx *gin.Context) {
 		return
 	}
 
-	path := fmt.Sprintf("images/%s", file.Filename)
+	unixTime := time.Now().UnixNano()
+	path := fmt.Sprintf("images/%d_%s", unixTime, file.Filename)
+
 	if file != nil {
-		err = ctx.SaveUploadedFile(file, "uploads/"+file.Filename)
+		err = ctx.SaveUploadedFile(file, path)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{
 				"message": "Internal server error",

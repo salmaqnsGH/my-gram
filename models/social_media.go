@@ -17,7 +17,7 @@ type SocialMedia struct {
 type CreateSocialMediaInput struct {
 	UserID         uint   `json:"user_id"`
 	Name           string `json:"name"`
-	SocialMediaUrl string `json:"social_media_url" validate:"required"`
+	SocialMediaUrl string `json:"social_media_url"`
 }
 
 type UpdateSocialMediaInput struct {

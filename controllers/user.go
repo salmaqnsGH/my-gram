@@ -59,6 +59,15 @@ func (c *userController) LoginUser(ctx *gin.Context) {
 
 	password := user.Password
 
+	user, err = c.service.GetUserByEmail(user.Email)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"messsage": "Not found",
+			"error":    err.Error(),
+		})
+		return
+	}
+
 	if !utils.PasswordValid(user.Password, password) {
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
@@ -68,16 +77,13 @@ func (c *userController) LoginUser(ctx *gin.Context) {
 			return
 		}
 	}
-
 	token, err := utils.GenerateToken(user.ID, user.Email)
 	if err != nil {
-		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"messsage": "Bad request",
-				"error":    err.Error(),
-			})
-			return
-		}
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    err.Error(),
+		})
+		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{

@@ -8,6 +8,7 @@ import (
 type UserService interface {
 	CreateUser(input models.User) (models.User, error)
 	GetUserByID(userID uint) (models.User, error)
+	GetUserByEmail(email string) (models.User, error)
 }
 
 type userService struct {
@@ -36,6 +37,15 @@ func (s *userService) CreateUser(input models.User) (models.User, error) {
 
 func (s *userService) GetUserByID(userID uint) (models.User, error) {
 	user, err := s.repository.FindByID(userID)
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func (s *userService) GetUserByEmail(email string) (models.User, error) {
+	user, err := s.repository.FindByEmail(email)
 	if err != nil {
 		return user, err
 	}

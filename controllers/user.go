@@ -3,6 +3,7 @@ package controllers
 import (
 	"my-gram/models"
 	"my-gram/services"
+	"my-gram/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -45,4 +46,41 @@ func (c *userController) RegisterUser(ctx *gin.Context) {
 	responseUser.UpdatedAt = newUser.UpdatedAt
 
 	ctx.JSON(http.StatusCreated, responseUser)
+}
+
+func (c *userController) LoginUser(ctx *gin.Context) {
+	user := models.User{}
+
+	err := ctx.ShouldBindJSON(&user)
+	if err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	password := user.Password
+
+	if !utils.PasswordValid(user.Password, password) {
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"messsage": "Bad request",
+				"error":    err.Error(),
+			})
+			return
+		}
+	}
+
+	token, err := utils.GenerateToken(user.ID, user.Email)
+	if err != nil {
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"messsage": "Bad request",
+				"error":    err.Error(),
+			})
+			return
+		}
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"token": token,
+	})
 }

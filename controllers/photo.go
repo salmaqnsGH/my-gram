@@ -42,7 +42,7 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 		return
 	}
 
-	var input models.Photo
+	var input models.CreatePhotoInput
 	input.PhotoUrl = path
 	input.Title = ctx.PostForm("title")
 	input.Caption = ctx.PostForm("caption")

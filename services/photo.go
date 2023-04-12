@@ -7,7 +7,7 @@ import (
 )
 
 type PhotoService interface {
-	CreatePhoto(input models.Photo) (models.Photo, error)
+	CreatePhoto(input models.CreatePhotoInput) (models.Photo, error)
 	GetPhotos() ([]models.Photo, error)
 	GetPhotosByUserID(userID uint) ([]models.Photo, error)
 	UpdatePhoto(ID uint, input models.Photo) (models.Photo, error)
@@ -23,7 +23,7 @@ func NewPhotoService(repository repositories.PhotoRepository) *photoService {
 	return &photoService{repository}
 }
 
-func (s *photoService) CreatePhoto(input models.Photo) (models.Photo, error) {
+func (s *photoService) CreatePhoto(input models.CreatePhotoInput) (models.Photo, error) {
 	photo := models.Photo{}
 
 	// TODO : userID from auth

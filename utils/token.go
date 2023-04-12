@@ -8,17 +8,21 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-const secretKey = "secr3t"
+var SECRET_KEY = []byte("SECRET-KEY")
 
-func GenerateToken(id uint, email string) (token string, err error) {
-	claims := jwt.MapClaims{
-		"id":    id,
-		"email": email,
+func GenerateToken(userID uint, email string) (string, error) {
+	claim := jwt.MapClaims{}
+	claim["user_id"] = userID
+	claim["email"] = email
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
+
+	signedToken, err := token.SignedString(SECRET_KEY)
+	if err != nil {
+		return signedToken, err
 	}
 
-	parseToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err = parseToken.SignedString([]byte(secretKey))
-	return
+	return signedToken, nil
 }
 
 func VerifyToken(ctx *gin.Context) (interface{}, error) {
@@ -35,7 +39,7 @@ func VerifyToken(ctx *gin.Context) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("Failed to get sign token")
 		}
-		return []byte(secretKey), nil
+		return []byte(SECRET_KEY), nil
 	})
 
 	if err != nil {

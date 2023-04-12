@@ -2,6 +2,7 @@ package routers
 
 import (
 	"my-gram/controllers"
+	"my-gram/middlewares"
 	"my-gram/repositories"
 	"my-gram/services"
 
@@ -57,6 +58,7 @@ func New(db *gorm.DB) *gin.Engine {
 
 	socialMediaRouter := r.Group("social-medias")
 	{
+		socialMediaRouter.Use(middlewares.AuthMiddleware())
 		socialMediaRouter.POST("/", socialMediaController.CreateSocialMedia)
 		socialMediaRouter.GET("/", socialMediaController.GetSocialMedias)
 		socialMediaRouter.GET("/:id", socialMediaController.GetSocialMediaByID)

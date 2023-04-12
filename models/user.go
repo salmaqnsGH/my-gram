@@ -16,6 +16,13 @@ type User struct {
 	Age      uint   `gorm:"not null" json:"age" validate:"required,gt=8"`
 }
 
+type RegisterUserResponse struct {
+	GORMModel
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Age      uint   `json:"age"`
+}
+
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	validate := validator.New()
 

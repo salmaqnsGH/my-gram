@@ -37,5 +37,12 @@ func (c *userController) RegisterUser(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, newUser)
+	responseUser := models.RegisterUserResponse{}
+	responseUser.Username = newUser.Username
+	responseUser.Email = newUser.Email
+	responseUser.Age = newUser.Age
+	responseUser.CreatedAt = newUser.CreatedAt
+	responseUser.UpdatedAt = newUser.UpdatedAt
+
+	ctx.JSON(http.StatusCreated, responseUser)
 }

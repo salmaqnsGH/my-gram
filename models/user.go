@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"my-gram/utils"
 
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
@@ -22,6 +23,13 @@ func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	if err != nil {
 		log.Print(err)
 	}
+
+	hashedPass, err := utils.HashPassword(u.Password)
+	if err != nil {
+		return
+	}
+
+	u.Password = hashedPass
 
 	return
 }

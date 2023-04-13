@@ -2,6 +2,8 @@ package db
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 
 	"my-gram/models"
 
@@ -9,42 +11,33 @@ import (
 	"gorm.io/gorm"
 )
 
-type Database struct {
-	Host      string
-	Username  string
-	Password  string
-	Port      int
-	Name      string
-	DebugMode string
-}
-
-const (
-	DB_HOST     = "localhost"
-	DB_USER     = "root"
-	DB_PASSWORD = "secret"
-	DB_PORT     = 5432
-	DB_NAME     = "my_gram"
-	DEBUG_MODE  = false // true/false
-)
-
 var (
 	db  *gorm.DB
 	err error
 )
 
-func StartDB(conf *Database) {
-	dsn := fmt.Sprintf("user=%s dbname=%s password=%s host=%s port=%d sslmode=disable", DB_USER, DB_NAME, DB_PASSWORD, DB_HOST, DB_PORT)
+func StartDB() {
+	DB_HOST := os.Getenv("DB_HOST")
+	DB_USER := os.Getenv("DB_USER")
+	DB_PASSWORD := os.Getenv("DB_PASSWORD")
+	DB_PORT := os.Getenv("DB_PORT")
+	DB_NAME := os.Getenv("DB_NAME")
+	DEBUG_MODE := os.Getenv("DEBUG_MODE")
 
-	if conf.Host != "" {
-		dsn = fmt.Sprintf("user=%s dbname=%s password=%s host=%s port=%d sslmode=disable", conf.Username, conf.Name, conf.Password, conf.Host, conf.Port)
+	dbPort, err := strconv.Atoi(DB_PORT)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
 	}
+
+	dsn := fmt.Sprintf("user=%s dbname=%s password=%s host=%s port=%d sslmode=disable", DB_USER, DB_NAME, DB_PASSWORD, DB_HOST, dbPort)
 
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 
-	if DEBUG_MODE || conf.DebugMode == "true" {
+	if DEBUG_MODE == "true" {
 		db.Debug().AutoMigrate(models.User{}, models.Comment{}, models.Photo{}, models.SocialMedia{})
 	}
 
@@ -54,6 +47,5 @@ func StartDB(conf *Database) {
 }
 
 func GetDB() *gorm.DB {
-
 	return db
 }

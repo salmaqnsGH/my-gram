@@ -10,6 +10,7 @@ import (
 
 func main() {
 	fmt.Println("Starting server..")
+	port := os.Getenv("PORT")
 
 	dbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
 	dbConf := database.Database{
@@ -24,5 +25,5 @@ func main() {
 	database.StartDB(&dbConf)
 
 	db := database.GetDB()
-	router.New(db).Run(":3000")
+	router.New(db).Run(fmt.Sprintf(":%s", port))
 }

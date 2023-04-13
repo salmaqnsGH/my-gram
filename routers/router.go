@@ -42,6 +42,7 @@ func New(db *gorm.DB) *gin.Engine {
 		photoRouter.POST("/", photoController.CreatePhoto)
 		photoRouter.GET("/", photoController.GetPhotos)
 		// photoRouter.GET("/", photoController.GetPhotosByUserID)
+		photoRouter.GET("/:photoID", photoController.GetPhotoByID)
 		photoRouter.PUT("/:photoID", photoController.UpdatePhoto)
 		photoRouter.DELETE("/:photoID", photoController.DeletePhoto)
 	}
@@ -55,7 +56,6 @@ func New(db *gorm.DB) *gin.Engine {
 		commentRouter.GET("/all/:photoID", commentController.GetCommentsByPhotoID)
 		commentRouter.PUT("/:commentID", commentController.UpdateComment)
 		commentRouter.DELETE("/:commentID", commentController.DeleteComment)
-
 	}
 
 	socialMediaRouter := r.Group("social-medias")
@@ -67,7 +67,7 @@ func New(db *gorm.DB) *gin.Engine {
 		// socialMediaRouter.GET("/all/:photoID", socialMediaController.GetCommentsByPhotoID)
 		socialMediaRouter.PUT("/:id", socialMediaController.UpdateSocialMedia)
 		socialMediaRouter.DELETE("/:id", socialMediaController.DeleteSocialMedia)
-
 	}
+
 	return r
 }

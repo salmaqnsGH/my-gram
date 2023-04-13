@@ -201,3 +201,25 @@ func (c *photoController) DeletePhoto(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, "Deleted")
 }
+
+func (c *photoController) GetPhotoByID(ctx *gin.Context) {
+	inputID, err := strconv.Atoi(ctx.Param("photoID"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	photo, err := c.service.GetPhotoByID(uint(inputID))
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"messsage": "Internal server error",
+			"error":    err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, photo)
+}

@@ -1,12 +1,27 @@
 package main
 
 import (
+	"fmt"
 	database "my-gram/database"
 	router "my-gram/routers"
+	"os"
+	"strconv"
 )
 
 func main() {
-	database.StartDB()
+	fmt.Println("Starting server..")
+
+	dbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
+	dbConf := database.Database{
+		Host:      os.Getenv("DB_HOST"),
+		Username:  os.Getenv("DB_USER"),
+		Password:  os.Getenv("DB_PASSWORD"),
+		Port:      dbPort,
+		Name:      os.Getenv("DB_NAME"),
+		DebugMode: os.Getenv("DEBUG_MODE"),
+	}
+
+	database.StartDB(&dbConf)
 
 	db := database.GetDB()
 	router.New(db).Run(":3000")

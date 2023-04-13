@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Photo represents the model for an photo
 type Photo struct {
 	GORMModel
 	UserID   uint   `json:"user_id"`

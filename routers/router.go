@@ -8,8 +8,23 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+
+	_ "my-gram/docs"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title My-gram
+// @version 1.0
+// @description Service to post photo
+// @termsOfService https://google.com
+// @contact.name API Support
+// @contact.email nurussalamahqonaah@gmail.com
+// @lisence.name Apache 2.0
+// @lisence.url https://google.com
+// @host localhost:3000
+// @BasePath /
 func New(db *gorm.DB) *gin.Engine {
 
 	photoRepository := repositories.NewPhotoRepository(db)
@@ -68,5 +83,6 @@ func New(db *gorm.DB) *gin.Engine {
 		socialMediaRouter.DELETE("/:id", socialMediaController.DeleteSocialMedia)
 	}
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return r
 }

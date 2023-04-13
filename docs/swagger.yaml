@@ -1,0 +1,399 @@
+basePath: /
+definitions:
+  models.Comment:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo_id:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - message
+    type: object
+  models.Photo:
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - photo_url
+    - title
+    type: object
+  models.SocialMedia:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      social_media_url:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - name
+    - social_media_url
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: nurussalamahqonaah@gmail.com
+    name: API Support
+  description: Service to post photo
+  termsOfService: https://google.com
+  title: My-gram
+  version: "1.0"
+paths:
+  /comments:
+    get:
+      consumes:
+      - application/json
+      description: Get all comment
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Comment'
+            type: array
+      summary: Get all comment
+      tags:
+      - Comment
+    post:
+      consumes:
+      - application/json
+      description: Create comment
+      parameters:
+      - description: Create comment
+        in: body
+        name: models.Comment
+        required: true
+        schema:
+          $ref: '#/definitions/models.Comment'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Comment'
+      summary: Create comment
+      tags:
+      - Comment
+  /comments/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete one comment by ID
+      parameters:
+      - description: ID of comment
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Deleted
+      summary: Delete comment
+      tags:
+      - Comment
+    get:
+      consumes:
+      - application/json
+      description: Get comment by ID
+      parameters:
+      - description: ID of comment
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+      summary: Get one comment
+      tags:
+      - Comment
+    put:
+      consumes:
+      - application/json
+      description: Update comment by ID
+      parameters:
+      - description: ID of comment
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+      summary: Update comment
+      tags:
+      - Comment
+  /comments/photo/{photoID}:
+    get:
+      consumes:
+      - application/json
+      description: Get comments by photoID
+      parameters:
+      - description: ID of photo
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Comment'
+            type: array
+      summary: Get comments by photoID
+      tags:
+      - Comment
+  /photos:
+    get:
+      consumes:
+      - application/json
+      description: Get all photo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Photo'
+            type: array
+      summary: Get all photo
+      tags:
+      - Photo
+    post:
+      consumes:
+      - application/json
+      description: Create photo
+      parameters:
+      - description: Create photo
+        in: body
+        name: models.Photo
+        required: true
+        schema:
+          $ref: '#/definitions/models.Photo'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Photo'
+      summary: Create photo
+      tags:
+      - Photo
+  /photos/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete one photo by ID
+      parameters:
+      - description: ID of photo
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Deleted
+      summary: Delete photo
+      tags:
+      - Photo
+    get:
+      consumes:
+      - application/json
+      description: Get photo by ID
+      parameters:
+      - description: ID of photo
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Photo'
+      summary: Get one photo
+      tags:
+      - Photo
+    put:
+      consumes:
+      - application/json
+      description: Update photo by ID
+      parameters:
+      - description: ID of photo
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Photo'
+      summary: Update photo
+      tags:
+      - Photo
+  /photos/user:
+    get:
+      consumes:
+      - application/json
+      description: Get photos by userID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Photo'
+            type: array
+      summary: Get photos by UserID
+      tags:
+      - Photo
+  /social-medias:
+    get:
+      consumes:
+      - application/json
+      description: Get all social media
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SocialMedia'
+            type: array
+      summary: Get all social media
+      tags:
+      - Social Media
+    post:
+      consumes:
+      - application/json
+      description: Create social media
+      parameters:
+      - description: Create Social Media
+        in: body
+        name: models.SocialMedia
+        required: true
+        schema:
+          $ref: '#/definitions/models.SocialMedia'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+      summary: Create social media
+      tags:
+      - Social Media
+  /social-medias/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete one social media by ID
+      parameters:
+      - description: ID of Social Media
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Deleted
+      summary: Delete social media
+      tags:
+      - Social Media
+    get:
+      consumes:
+      - application/json
+      description: Get social media by ID
+      parameters:
+      - description: ID of Social Media
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+      summary: Get one social media
+      tags:
+      - Social Media
+    put:
+      consumes:
+      - application/json
+      description: Update social media by ID
+      parameters:
+      - description: ID of Social Media
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SocialMedia'
+      summary: Update social media
+      tags:
+      - Social Media
+swagger: "2.0"

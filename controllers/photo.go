@@ -22,6 +22,15 @@ func NewPhotoController(service services.PhotoService) *photoController {
 	return &photoController{service}
 }
 
+// CreatePhoto godoc
+// @Summary Create photo
+// @Description Create photo
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Param models.Photo body models.Photo true "Create photo"
+// @Success 201 {object} models.Photo
+// @Router /photos [post]
 func (c *photoController) CreatePhoto(ctx *gin.Context) {
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := uint(userData["user_id"].(float64))
@@ -64,6 +73,14 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newPhoto)
 }
 
+// GetPhotos godoc
+// @Summary Get all photo
+// @Description Get all photo
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Success 200 {object} []models.Photo
+// @Router /photos [get]
 func (c *photoController) GetPhotos(ctx *gin.Context) {
 	photos, err := c.service.GetPhotos()
 	if err != nil {
@@ -77,6 +94,14 @@ func (c *photoController) GetPhotos(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, photos)
 }
 
+// GetPhotosByUserID godoc
+// @Summary Get photos by UserID
+// @Description Get photos by userID
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Success 200 {object} []models.Photo
+// @Router /photos/user [get]
 func (c *photoController) GetPhotosByUserID(ctx *gin.Context) {
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := uint(userData["user_id"].(float64))
@@ -93,6 +118,15 @@ func (c *photoController) GetPhotosByUserID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, photos)
 }
 
+// UpdatePhoto godoc
+// @Summary Update photo
+// @Description Update photo by ID
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Param id path uint true "ID of photo"
+// @Success 200 {object} models.Photo
+// @Router /photos/{id} [put]
 func (c *photoController) UpdatePhoto(ctx *gin.Context) {
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userID := uint(userData["user_id"].(float64))
@@ -164,6 +198,15 @@ func (c *photoController) UpdatePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, updatedPhoto)
 }
 
+// DeletePhoto godoc
+// @Summary Delete photo
+// @Description Delete one photo by ID
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Param id path uint true "ID of photo"
+// @Success 200 "Deleted"
+// @Router /photos/{id} [delete]
 func (c *photoController) DeletePhoto(ctx *gin.Context) {
 	photoIDInt, err := strconv.Atoi(ctx.Param("photoID"))
 	if err != nil {
@@ -202,6 +245,15 @@ func (c *photoController) DeletePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, "Deleted")
 }
 
+// GetPhotoByID godoc
+// @Summary Get one photo
+// @Description Get photo by ID
+// @Tags Photo
+// @Accept json
+// @Produce json
+// @Param id path uint true "ID of photo"
+// @Success 200 {object} models.Photo
+// @Router /photos/{id} [get]
 func (c *photoController) GetPhotoByID(ctx *gin.Context) {
 	inputID, err := strconv.Atoi(ctx.Param("photoID"))
 	if err != nil {

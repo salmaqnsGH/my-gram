@@ -41,7 +41,7 @@ func New(db *gorm.DB) *gin.Engine {
 		photoRouter.Use(middlewares.AuthMiddleware())
 		photoRouter.POST("/", photoController.CreatePhoto)
 		photoRouter.GET("/", photoController.GetPhotos)
-		// photoRouter.GET("/", photoController.GetPhotosByUserID)
+		photoRouter.GET("/user", photoController.GetPhotosByUserID)
 		photoRouter.GET("/:photoID", photoController.GetPhotoByID)
 		photoRouter.PUT("/:photoID", photoController.UpdatePhoto)
 		photoRouter.DELETE("/:photoID", photoController.DeletePhoto)
@@ -53,7 +53,7 @@ func New(db *gorm.DB) *gin.Engine {
 		commentRouter.POST("/", commentController.CreateComment)
 		commentRouter.GET("/", commentController.GetComments)
 		commentRouter.GET("/:commentID", commentController.GetCommentByID)
-		commentRouter.GET("/all/:photoID", commentController.GetCommentsByPhotoID)
+		commentRouter.GET("/photo/:photoID", commentController.GetCommentsByPhotoID)
 		commentRouter.PUT("/:commentID", commentController.UpdateComment)
 		commentRouter.DELETE("/:commentID", commentController.DeleteComment)
 	}
@@ -64,7 +64,6 @@ func New(db *gorm.DB) *gin.Engine {
 		socialMediaRouter.POST("/", socialMediaController.CreateSocialMedia)
 		socialMediaRouter.GET("/", socialMediaController.GetSocialMedias)
 		socialMediaRouter.GET("/:id", socialMediaController.GetSocialMediaByID)
-		// socialMediaRouter.GET("/all/:photoID", socialMediaController.GetCommentsByPhotoID)
 		socialMediaRouter.PUT("/:id", socialMediaController.UpdateSocialMedia)
 		socialMediaRouter.DELETE("/:id", socialMediaController.DeleteSocialMedia)
 	}

@@ -19,7 +19,7 @@ MyGram is a final project from DTS Kominfo FGA, to build instagram clone API tha
 
 ## ERD (Entity Relationship Diagram)
 
-![ERD](./attachment/erd.png)
+![ERD](./docs/erd.png)
 
 ## Endpoints
 

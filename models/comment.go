@@ -10,8 +10,8 @@ import (
 // Comment represents the model for an comment
 type Comment struct {
 	GORMModel
-	UserID  uint   `gorm:"not null" json:"user_id"`
-	PhotoID uint   `gorm:"not null" json:"photo_id"`
+	UserID  uint   `gorm:"not null" json:"user_id" validate:"required"`
+	PhotoID uint   `gorm:"not null" json:"photo_id" validate:"required"`
 	Message string `gorm:"not null" json:"message" validate:"required"`
 }
 

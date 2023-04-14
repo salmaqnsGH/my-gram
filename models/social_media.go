@@ -17,14 +17,14 @@ type SocialMedia struct {
 
 // CreateSocialMediaInput represents the model for an createSocialMediaInput
 type CreateSocialMediaInput struct {
-	Name           string `json:"name"`
-	SocialMediaUrl string `json:"social_media_url"`
+	Name           string `json:"name" validate:"required"`
+	SocialMediaUrl string `json:"social_media_url" validate:"required"`
 }
 
 // UpdateSocialMediaInput represents the model for an updateSocialMediaInput
 type UpdateSocialMediaInput struct {
-	Name           string `json:"name"`
-	SocialMediaUrl string `json:"social_media_url"`
+	Name           string `json:"name" validate:"required"`
+	SocialMediaUrl string `json:"social_media_url" validate:"required"`
 }
 
 func (s *SocialMedia) BeforeCreate(tx *gorm.DB) (err error) {

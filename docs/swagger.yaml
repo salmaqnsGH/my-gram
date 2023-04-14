@@ -17,6 +17,15 @@ definitions:
     required:
     - message
     type: object
+  models.CreateCommentInput:
+    properties:
+      message:
+        type: string
+      photo_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
   models.Photo:
     properties:
       caption:
@@ -55,6 +64,11 @@ definitions:
     - name
     - social_media_url
     type: object
+  models.UpdateCommentInput:
+    properties:
+      message:
+        type: string
+    type: object
 host: localhost:3000
 info:
   contact:
@@ -92,7 +106,7 @@ paths:
         name: models.Comment
         required: true
         schema:
-          $ref: '#/definitions/models.Comment'
+          $ref: '#/definitions/models.CreateCommentInput'
       produces:
       - application/json
       responses:
@@ -147,6 +161,12 @@ paths:
       - application/json
       description: Update comment by ID
       parameters:
+      - description: Update comment
+        in: body
+        name: models.Comment
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateCommentInput'
       - description: ID of comment
         in: path
         name: id

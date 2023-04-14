@@ -24,7 +24,7 @@ func NewCommentController(service services.CommentService) *commentController {
 // @Tags Comment
 // @Accept json
 // @Produce json
-// @Param models.Comment body models.Comment true "Create comment"
+// @Param models.Comment body models.CreateCommentInput true "Create comment"
 // @Success 201 {object} models.Comment
 // @Router /comments [post]
 func (c *commentController) CreateComment(ctx *gin.Context) {
@@ -61,6 +61,7 @@ func (c *commentController) CreateComment(ctx *gin.Context) {
 // @Tags Comment
 // @Accept json
 // @Produce json
+// @Param models.Comment body models.UpdateCommentInput true "Update comment"
 // @Param id path uint true "ID of comment"
 // @Success 200 {object} models.Comment
 // @Router /comments/{id} [put]

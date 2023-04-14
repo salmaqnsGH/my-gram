@@ -64,7 +64,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Comment"
+                            "$ref": "#/definitions/models.CreateCommentInput"
                         }
                     }
                 ],
@@ -157,6 +157,15 @@ const docTemplate = `{
                 ],
                 "summary": "Update comment",
                 "parameters": [
+                    {
+                        "description": "Update comment",
+                        "name": "models.Comment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateCommentInput"
+                        }
+                    },
                     {
                         "type": "integer",
                         "description": "ID of comment",
@@ -550,6 +559,20 @@ const docTemplate = `{
                 }
             }
         },
+        "models.CreateCommentInput": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "photo_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.Photo": {
             "type": "object",
             "required": [
@@ -604,6 +627,14 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.UpdateCommentInput": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
                 }
             }
         }

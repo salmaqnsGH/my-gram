@@ -15,12 +15,14 @@ type Comment struct {
 	Message string `gorm:"not null" json:"message" validate:"required"`
 }
 
+// CreateCommentInput represents the model for an createCommentInput
 type CreateCommentInput struct {
 	UserID  uint   `json:"user_id"`
 	PhotoID uint   `json:"photo_id"`
 	Message string `json:"message"`
 }
 
+// UpdateCommentInput represents the model for an updateCommentInput
 type UpdateCommentInput struct {
 	Message string `json:"message"`
 }

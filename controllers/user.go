@@ -63,7 +63,7 @@ func (c *userController) LoginUser(ctx *gin.Context) {
 	user, err = c.service.GetUserByEmail(user.Email)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"messsage": "Not found",
+			"messsage": "Failed to login",
 			"error":    err.Error(),
 		})
 		return

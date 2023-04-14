@@ -428,7 +428,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.SocialMedia"
+                            "$ref": "#/definitions/models.CreateSocialMediaInput"
                         }
                     }
                 ],
@@ -492,6 +492,15 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Update social media",
+                        "name": "models.SocialMedia",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateSocialMediaInput"
+                        }
                     }
                 ],
                 "responses": {
@@ -573,6 +582,17 @@ const docTemplate = `{
                 }
             }
         },
+        "models.CreateSocialMediaInput": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "social_media_url": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Photo": {
             "type": "object",
             "required": [
@@ -634,6 +654,17 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateSocialMediaInput": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "social_media_url": {
                     "type": "string"
                 }
             }

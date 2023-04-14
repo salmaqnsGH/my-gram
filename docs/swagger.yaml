@@ -26,6 +26,13 @@ definitions:
       user_id:
         type: integer
     type: object
+  models.CreateSocialMediaInput:
+    properties:
+      name:
+        type: string
+      social_media_url:
+        type: string
+    type: object
   models.Photo:
     properties:
       caption:
@@ -67,6 +74,13 @@ definitions:
   models.UpdateCommentInput:
     properties:
       message:
+        type: string
+    type: object
+  models.UpdateSocialMediaInput:
+    properties:
+      name:
+        type: string
+      social_media_url:
         type: string
     type: object
 host: localhost:3000
@@ -346,7 +360,7 @@ paths:
         name: models.SocialMedia
         required: true
         schema:
-          $ref: '#/definitions/models.SocialMedia'
+          $ref: '#/definitions/models.CreateSocialMediaInput'
       produces:
       - application/json
       responses:
@@ -406,6 +420,12 @@ paths:
         name: id
         required: true
         type: integer
+      - description: Update social media
+        in: body
+        name: models.SocialMedia
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateSocialMediaInput'
       produces:
       - application/json
       responses:

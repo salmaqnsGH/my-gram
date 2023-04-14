@@ -24,12 +24,12 @@ func NewUserService(repository repositories.UserRepository) *userService {
 func (s *userService) CreateUser(input models.User) (models.User, error) {
 	user, err := s.repository.FindByEmail(input.Email)
 	if err == nil {
-		return user, errors.New("Duplicate email not allowed")
+		return user, errors.New("email already exist")
 	}
 
 	user, err = s.repository.FindByUsername(input.Username)
 	if err == nil {
-		return user, errors.New("Duplicate username not allowed")
+		return user, errors.New("username already exist")
 	}
 
 	user = models.User{}

@@ -22,19 +22,13 @@ func (c *userController) RegisterUser(ctx *gin.Context) {
 
 	err := ctx.ShouldBindJSON(&input)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	newUser, err := c.service.CreateUser(input)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
@@ -54,33 +48,24 @@ func (c *userController) LoginUser(ctx *gin.Context) {
 
 	err := ctx.ShouldBindJSON(&user)
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	existUser, err := c.service.GetUserByEmail(user.Email)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"messsage": "Bad request",
-			"error":    "Invalid email/password",
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, "Invalid email/password", "Bad Request"))
 		return
 	}
 
 	if !utils.PasswordValid(existUser.Password, user.Password) {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    "Invalid email/password",
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, "Invalid email/password", "Bad Request"))
 		return
 	}
 
 	token, err := utils.GenerateToken(existUser.ID, existUser.Email)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(http.StatusInternalServerError, "Failed to generate token", "Bad Request"))
 		return
 	}
 

@@ -15,6 +15,11 @@
     "paths": {
         "/comments": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all comment",
                 "consumes": [
                     "application/json"
@@ -39,6 +44,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create comment",
                 "consumes": [
                     "application/json"
@@ -53,7 +63,7 @@
                 "parameters": [
                     {
                         "description": "Create comment",
-                        "name": "models.Comment",
+                        "name": "models.CreateCommentInput",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -73,6 +83,11 @@
         },
         "/comments/photo/{photoID}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get comments by photoID",
                 "consumes": [
                     "application/json"
@@ -108,6 +123,11 @@
         },
         "/comments/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get comment by ID",
                 "consumes": [
                     "application/json"
@@ -138,6 +158,11 @@
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update comment by ID",
                 "consumes": [
                     "application/json"
@@ -152,7 +177,7 @@
                 "parameters": [
                     {
                         "description": "Update comment",
-                        "name": "models.Comment",
+                        "name": "models.UpdateCommentInput",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -177,6 +202,11 @@
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete one comment by ID",
                 "consumes": [
                     "application/json"
@@ -450,7 +480,7 @@
                 "parameters": [
                     {
                         "description": "Create Social Media",
-                        "name": "models.SocialMedia",
+                        "name": "models.CreateSocialMediaInput",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -521,7 +551,7 @@
                     },
                     {
                         "description": "Update social media",
-                        "name": "models.SocialMedia",
+                        "name": "models.UpdateSocialMediaInput",
                         "in": "body",
                         "required": true,
                         "schema": {

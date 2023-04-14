@@ -24,7 +24,7 @@ func NewSocialMediaController(service services.SocialMediaService) *socialMediaC
 // @Tags Social Media
 // @Accept json
 // @Produce json
-// @Param models.SocialMedia body models.CreateSocialMediaInput true "Create Social Media"
+// @Param models.CreateSocialMediaInput body models.CreateSocialMediaInput true "Create Social Media"
 // @Success 201 {object} models.SocialMedia
 // @Router /social-medias [post]
 func (c *socialMediaController) CreateSocialMedia(ctx *gin.Context) {
@@ -92,7 +92,7 @@ func (c *socialMediaController) GetSocialMediaByID(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path uint true "ID of Social Media"
-// @Param models.SocialMedia body models.UpdateSocialMediaInput true "Update social media"
+// @Param models.UpdateSocialMediaInput body models.UpdateSocialMediaInput true "Update social media"
 // @Success 200 {object} models.SocialMedia
 // @Router /social-medias/{id} [put]
 func (c *socialMediaController) UpdateSocialMedia(ctx *gin.Context) {

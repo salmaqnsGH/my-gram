@@ -24,7 +24,8 @@ func NewCommentController(service services.CommentService) *commentController {
 // @Tags Comment
 // @Accept json
 // @Produce json
-// @Param models.Comment body models.CreateCommentInput true "Create comment"
+// @Security Bearer
+// @Param models.CreateCommentInput body models.CreateCommentInput true "Create comment"
 // @Success 201 {object} models.Comment
 // @Router /comments [post]
 func (c *commentController) CreateComment(ctx *gin.Context) {
@@ -60,7 +61,8 @@ func (c *commentController) CreateComment(ctx *gin.Context) {
 // @Tags Comment
 // @Accept json
 // @Produce json
-// @Param models.Comment body models.UpdateCommentInput true "Update comment"
+// @Security Bearer
+// @Param models.UpdateCommentInput body models.UpdateCommentInput true "Update comment"
 // @Param id path uint true "ID of comment"
 // @Success 200 {object} models.Comment
 // @Router /comments/{id} [put]
@@ -102,6 +104,7 @@ func (c *commentController) UpdateComment(ctx *gin.Context) {
 // @Tags Comment
 // @Accept json
 // @Produce json
+// @Security Bearer
 // @Param id path uint true "ID of comment"
 // @Success 200 {object} models.Comment
 // @Router /comments/{id} [get]
@@ -133,6 +136,7 @@ func (c *commentController) GetCommentByID(ctx *gin.Context) {
 // @Tags Comment
 // @Accept json
 // @Produce json
+// @Security Bearer
 // @Success 200 {object} []models.Comment
 // @Router /comments [get]
 func (c *commentController) GetComments(ctx *gin.Context) {
@@ -154,6 +158,7 @@ func (c *commentController) GetComments(ctx *gin.Context) {
 // @Tags Comment
 // @Accept json
 // @Produce json
+// @Security Bearer
 // @Param id path uint true "ID of photo"
 // @Success 200 {object} []models.Comment
 // @Router /comments/photo/{photoID} [get]
@@ -185,6 +190,7 @@ func (c *commentController) GetCommentsByPhotoID(ctx *gin.Context) {
 // @Tags Comment
 // @Accept json
 // @Produce json
+// @Security Bearer
 // @Param id path uint true "ID of comment"
 // @Success 200 "Deleted"
 // @Router /comments/{id} [delete]

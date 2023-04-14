@@ -22,6 +22,11 @@ const docTemplate = `{
     "paths": {
         "/comments": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get all comment",
                 "consumes": [
                     "application/json"
@@ -46,6 +51,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Create comment",
                 "consumes": [
                     "application/json"
@@ -60,7 +70,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "Create comment",
-                        "name": "models.Comment",
+                        "name": "models.CreateCommentInput",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -80,6 +90,11 @@ const docTemplate = `{
         },
         "/comments/photo/{photoID}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get comments by photoID",
                 "consumes": [
                     "application/json"
@@ -115,6 +130,11 @@ const docTemplate = `{
         },
         "/comments/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Get comment by ID",
                 "consumes": [
                     "application/json"
@@ -145,6 +165,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Update comment by ID",
                 "consumes": [
                     "application/json"
@@ -159,7 +184,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "Update comment",
-                        "name": "models.Comment",
+                        "name": "models.UpdateCommentInput",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -184,6 +209,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "Delete one comment by ID",
                 "consumes": [
                     "application/json"
@@ -457,7 +487,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "Create Social Media",
-                        "name": "models.SocialMedia",
+                        "name": "models.CreateSocialMediaInput",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -528,7 +558,7 @@ const docTemplate = `{
                     },
                     {
                         "description": "Update social media",
-                        "name": "models.SocialMedia",
+                        "name": "models.UpdateSocialMediaInput",
                         "in": "body",
                         "required": true,
                         "schema": {

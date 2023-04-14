@@ -105,6 +105,8 @@ paths:
             items:
               $ref: '#/definitions/models.Comment'
             type: array
+      security:
+      - Bearer: []
       summary: Get all comment
       tags:
       - Comment
@@ -115,7 +117,7 @@ paths:
       parameters:
       - description: Create comment
         in: body
-        name: models.Comment
+        name: models.CreateCommentInput
         required: true
         schema:
           $ref: '#/definitions/models.CreateCommentInput'
@@ -126,6 +128,8 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/models.Comment'
+      security:
+      - Bearer: []
       summary: Create comment
       tags:
       - Comment
@@ -145,6 +149,8 @@ paths:
       responses:
         "200":
           description: Deleted
+      security:
+      - Bearer: []
       summary: Delete comment
       tags:
       - Comment
@@ -165,6 +171,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Comment'
+      security:
+      - Bearer: []
       summary: Get one comment
       tags:
       - Comment
@@ -175,7 +183,7 @@ paths:
       parameters:
       - description: Update comment
         in: body
-        name: models.Comment
+        name: models.UpdateCommentInput
         required: true
         schema:
           $ref: '#/definitions/models.UpdateCommentInput'
@@ -191,6 +199,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Comment'
+      security:
+      - Bearer: []
       summary: Update comment
       tags:
       - Comment
@@ -214,6 +224,8 @@ paths:
             items:
               $ref: '#/definitions/models.Comment'
             type: array
+      security:
+      - Bearer: []
       summary: Get comments by photoID
       tags:
       - Comment
@@ -379,7 +391,7 @@ paths:
       parameters:
       - description: Create Social Media
         in: body
-        name: models.SocialMedia
+        name: models.CreateSocialMediaInput
         required: true
         schema:
           $ref: '#/definitions/models.CreateSocialMediaInput'
@@ -444,7 +456,7 @@ paths:
         type: integer
       - description: Update social media
         in: body
-        name: models.SocialMedia
+        name: models.UpdateSocialMediaInput
         required: true
         schema:
           $ref: '#/definitions/models.UpdateSocialMediaInput'

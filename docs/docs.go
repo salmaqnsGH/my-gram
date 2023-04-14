@@ -250,13 +250,25 @@ const docTemplate = `{
                 "summary": "Create photo",
                 "parameters": [
                     {
-                        "description": "Create photo",
-                        "name": "models.Photo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Photo"
-                        }
+                        "type": "string",
+                        "description": "Title",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Caption",
+                        "name": "caption",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Photo URL",
+                        "name": "photo_url",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -344,6 +356,27 @@ const docTemplate = `{
                         "description": "ID of photo",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Title",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Caption",
+                        "name": "caption",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Photo URL",
+                        "name": "photo_url",
+                        "in": "formData",
                         "required": true
                     }
                 ],

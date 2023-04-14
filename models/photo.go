@@ -16,12 +16,14 @@ type Photo struct {
 	PhotoUrl string `json:"photo_url" validate:"required"`
 }
 
+// CreatePhotoInput represents the model for an createPhotoInput
 type CreatePhotoInput struct {
 	Title    string `form:"title" validate:"required"`
 	Caption  string `form:"caption"`
 	PhotoUrl string `form:"photo_url" validate:"required"`
 }
 
+// UpdatePhotoInput represents the model for an updatePhotoInput
 type UpdatePhotoInput struct {
 	Title    string `form:"title" validate:"required"`
 	Caption  string `form:"caption"`

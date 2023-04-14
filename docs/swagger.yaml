@@ -239,12 +239,21 @@ paths:
       - application/json
       description: Create photo
       parameters:
-      - description: Create photo
-        in: body
-        name: models.Photo
+      - description: Title
+        in: formData
+        name: title
         required: true
-        schema:
-          $ref: '#/definitions/models.Photo'
+        type: string
+      - description: Caption
+        in: formData
+        name: caption
+        required: true
+        type: string
+      - description: Photo URL
+        in: formData
+        name: photo_url
+        required: true
+        type: file
       produces:
       - application/json
       responses:
@@ -304,6 +313,21 @@ paths:
         name: id
         required: true
         type: integer
+      - description: Title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Caption
+        in: formData
+        name: caption
+        required: true
+        type: string
+      - description: Photo URL
+        in: formData
+        name: photo_url
+        required: true
+        type: file
       produces:
       - application/json
       responses:

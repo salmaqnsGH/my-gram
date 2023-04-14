@@ -28,7 +28,9 @@ func NewPhotoController(service services.PhotoService) *photoController {
 // @Tags Photo
 // @Accept json
 // @Produce json
-// @Param models.Photo body models.Photo true "Create photo"
+// @Param title formData string true "Title"
+// @Param caption formData string true "Caption"
+// @Param photo_url formData file true "Photo URL"
 // @Success 201 {object} models.Photo
 // @Router /photos [post]
 func (c *photoController) CreatePhoto(ctx *gin.Context) {
@@ -124,6 +126,9 @@ func (c *photoController) GetPhotosByUserID(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path uint true "ID of photo"
+// @Param title formData string true "Title"
+// @Param caption formData string true "Caption"
+// @Param photo_url formData file true "Photo URL"
 // @Success 200 {object} models.Photo
 // @Router /photos/{id} [put]
 func (c *photoController) UpdatePhoto(ctx *gin.Context) {

@@ -15,12 +15,13 @@ type SocialMedia struct {
 	SocialMediaUrl string `gorm:"not null" json:"social_media_url" validate:"required"`
 }
 
+// CreateSocialMediaInput represents the model for an createSocialMediaInput
 type CreateSocialMediaInput struct {
-	UserID         uint   `json:"user_id"`
 	Name           string `json:"name"`
 	SocialMediaUrl string `json:"social_media_url"`
 }
 
+// UpdateSocialMediaInput represents the model for an updateSocialMediaInput
 type UpdateSocialMediaInput struct {
 	Name           string `json:"name"`
 	SocialMediaUrl string `json:"social_media_url"`

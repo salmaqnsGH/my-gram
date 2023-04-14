@@ -24,7 +24,7 @@ func NewSocialMediaController(service services.SocialMediaService) *socialMediaC
 // @Tags Social Media
 // @Accept json
 // @Produce json
-// @Param models.SocialMedia body models.SocialMedia true "Create Social Media"
+// @Param models.SocialMedia body models.CreateSocialMediaInput true "Create Social Media"
 // @Success 201 {object} models.SocialMedia
 // @Router /social-medias [post]
 func (c *socialMediaController) CreateSocialMedia(ctx *gin.Context) {
@@ -32,7 +32,6 @@ func (c *socialMediaController) CreateSocialMedia(ctx *gin.Context) {
 	userID := uint(userData["user_id"].(float64))
 
 	var input models.CreateSocialMediaInput
-	input.UserID = userID
 
 	err := ctx.ShouldBindJSON(&input)
 	if err != nil {
@@ -43,7 +42,7 @@ func (c *socialMediaController) CreateSocialMedia(ctx *gin.Context) {
 		return
 	}
 
-	newSocialMedia, err := c.service.CreateSocialMedia(input)
+	newSocialMedia, err := c.service.CreateSocialMedia(input, userID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"messsage": "Internal server error",
@@ -93,6 +92,7 @@ func (c *socialMediaController) GetSocialMediaByID(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path uint true "ID of Social Media"
+// @Param models.SocialMedia body models.UpdateSocialMediaInput true "Update social media"
 // @Success 200 {object} models.SocialMedia
 // @Router /social-medias/{id} [put]
 func (c *socialMediaController) UpdateSocialMedia(ctx *gin.Context) {

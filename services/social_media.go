@@ -8,7 +8,7 @@ import (
 )
 
 type SocialMediaService interface {
-	CreateSocialMedia(input models.CreateSocialMediaInput) (models.SocialMedia, error)
+	CreateSocialMedia(input models.CreateSocialMediaInput, userID uint) (models.SocialMedia, error)
 	GetSocialMediaByID(ID uint) (models.SocialMedia, error)
 	UpdateSocialMedia(inputID uint, inputData models.UpdateSocialMediaInput) (models.SocialMedia, error)
 	GetSocialMedias() ([]models.SocialMedia, error)
@@ -23,10 +23,10 @@ func NewSocialMediaService(repository repositories.SocialMediaRepository) *socia
 	return &socialMediaService{repository}
 }
 
-func (s *socialMediaService) CreateSocialMedia(input models.CreateSocialMediaInput) (models.SocialMedia, error) {
+func (s *socialMediaService) CreateSocialMedia(input models.CreateSocialMediaInput, userID uint) (models.SocialMedia, error) {
 	socialMedia := models.SocialMedia{}
 
-	socialMedia.UserID = input.UserID
+	socialMedia.UserID = userID
 	socialMedia.Name = input.Name
 	socialMedia.SocialMediaUrl = input.SocialMediaUrl
 

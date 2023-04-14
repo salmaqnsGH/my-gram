@@ -34,10 +34,7 @@ func CommentAuthorization(commentService services.CommentService) gin.HandlerFun
 
 		inputID, err := strconv.Atoi(ctx.Param("commentID"))
 		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"messsage": "Bad request",
-				"error":    err.Error(),
-			})
+			ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 			return
 		}
 
@@ -45,16 +42,10 @@ func CommentAuthorization(commentService services.CommentService) gin.HandlerFun
 
 		if comment.UserID != userID {
 			if ctx.Request.Method == http.MethodDelete {
-				ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{
-					"message": "Unauthorized",
-					"error":   "Access forbidden for this method",
-				})
+				ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(http.StatusUnauthorized, "cannot access this data", "Unauthorized"))
 				return
 			} else if ctx.Request.Method == http.MethodPut {
-				ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{
-					"message": "Unauthorized",
-					"error":   "Access forbidden for this method",
-				})
+				ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(http.StatusUnauthorized, "cannot access this data", "Unauthorized"))
 				return
 			}
 
@@ -72,10 +63,7 @@ func PhotoAuthorization(photoService services.PhotoService) gin.HandlerFunc {
 
 		inputID, err := strconv.Atoi(ctx.Param("photoID"))
 		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"messsage": "Bad request",
-				"error":    err.Error(),
-			})
+			ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 			return
 		}
 
@@ -83,16 +71,10 @@ func PhotoAuthorization(photoService services.PhotoService) gin.HandlerFunc {
 
 		if photo.UserID != userID {
 			if ctx.Request.Method == http.MethodDelete {
-				ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{
-					"message": "Unauthorized",
-					"error":   "Access forbidden for this method",
-				})
+				ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(http.StatusUnauthorized, "cannot access this data", "Unauthorized"))
 				return
 			} else if ctx.Request.Method == http.MethodPut {
-				ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{
-					"message": "Unauthorized",
-					"error":   "Access forbidden for this method",
-				})
+				ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(http.StatusUnauthorized, "cannot access this data", "Unauthorized"))
 				return
 			}
 
@@ -110,10 +92,7 @@ func SocialMediaAuthorization(socialMediaService services.SocialMediaService) gi
 
 		inputID, err := strconv.Atoi(ctx.Param("id"))
 		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"messsage": "Bad request",
-				"error":    err.Error(),
-			})
+			ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 			return
 		}
 
@@ -121,16 +100,10 @@ func SocialMediaAuthorization(socialMediaService services.SocialMediaService) gi
 
 		if socialMedia.UserID != userID {
 			if ctx.Request.Method == http.MethodDelete {
-				ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{
-					"message": "Unauthorized",
-					"error":   "Access forbidden for this method",
-				})
+				ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(http.StatusUnauthorized, "cannot access this data", "Unauthorized"))
 				return
 			} else if ctx.Request.Method == http.MethodPut {
-				ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{
-					"message": "Unauthorized",
-					"error":   "Access forbidden for this method",
-				})
+				ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(http.StatusUnauthorized, "cannot access this data", "Unauthorized"))
 				return
 			}
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"my-gram/models"
 	"my-gram/services"
+	"my-gram/utils"
 	util "my-gram/utils"
 	"net/http"
 	"strconv"
@@ -39,10 +40,7 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 
 	file, err := ctx.FormFile("photo_url")
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
@@ -50,10 +48,7 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 	path := fmt.Sprintf("images/%d_%s", unixTime, file.Filename)
 	err = ctx.SaveUploadedFile(file, path)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(http.StatusInternalServerError, err.Error(), "Internal Server Error"))
 		return
 	}
 
@@ -64,10 +59,7 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 
 	newPhoto, err := c.service.CreatePhoto(input, userID)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
@@ -85,10 +77,7 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 func (c *photoController) GetPhotos(ctx *gin.Context) {
 	photos, err := c.service.GetPhotos()
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
@@ -109,10 +98,7 @@ func (c *photoController) GetPhotosByUserID(ctx *gin.Context) {
 
 	photos, err := c.service.GetPhotosByUserID(userID)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusNotFound, utils.ErrResponse(http.StatusNotFound, err.Error(), "Not Found"))
 		return
 	}
 
@@ -137,26 +123,20 @@ func (c *photoController) UpdatePhoto(ctx *gin.Context) {
 
 	photoIDInt, err := strconv.Atoi(ctx.Param("photoID"))
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, errors.New("Invalid photo ID"))
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 	photoID := uint(photoIDInt)
 
 	existingPhoto, err := c.service.GetPhotoByID(photoID)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"messsage": "Not found",
-			"error":    err.Error(),
-		})
+		ctx.AbortWithStatusJSON(http.StatusNotFound, utils.ErrResponse(http.StatusNotFound, err.Error(), "Not Found"))
 		return
 	}
 
 	file, err := ctx.FormFile("photo_url")
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
@@ -166,10 +146,7 @@ func (c *photoController) UpdatePhoto(ctx *gin.Context) {
 	if file != nil {
 		err = ctx.SaveUploadedFile(file, path)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"message": "Internal server error",
-				"error":   err.Error(),
-			})
+			ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(http.StatusInternalServerError, err.Error(), "Internal Server Error"))
 			return
 		}
 	}
@@ -191,10 +168,7 @@ func (c *photoController) UpdatePhoto(ctx *gin.Context) {
 
 	updatedPhoto, err := c.service.UpdatePhoto(photoID, userID, photo)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(http.StatusInternalServerError, err.Error(), "Internal Server Error"))
 		return
 	}
 
@@ -220,28 +194,19 @@ func (c *photoController) DeletePhoto(ctx *gin.Context) {
 
 	photo, err := c.service.GetPhotoByID(photoID)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"messsage": "Not found",
-			"error":    err.Error(),
-		})
+		ctx.AbortWithStatusJSON(http.StatusNotFound, utils.ErrResponse(http.StatusNotFound, err.Error(), "Not Found"))
 		return
 	}
 
 	err = c.service.DeletePhoto(photoID)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusNotFound, utils.ErrResponse(http.StatusNotFound, err.Error(), "Not Found"))
 		return
 	}
 
 	_, err = util.DeleteFile(photo.PhotoUrl)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(http.StatusInternalServerError, err.Error(), "Internal Server Error"))
 		return
 	}
 
@@ -260,19 +225,13 @@ func (c *photoController) DeletePhoto(ctx *gin.Context) {
 func (c *photoController) GetPhotoByID(ctx *gin.Context) {
 	inputID, err := strconv.Atoi(ctx.Param("photoID"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	photo, err := c.service.GetPhotoByID(uint(inputID))
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusNotFound, utils.ErrResponse(http.StatusNotFound, err.Error(), "Not Found"))
 		return
 	}
 

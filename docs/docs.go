@@ -576,9 +576,6 @@ const docTemplate = `{
                 },
                 "photo_id": {
                     "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
                 }
             }
         },

@@ -8,7 +8,7 @@ import (
 )
 
 type CommentService interface {
-	CreateComment(input models.CreateCommentInput) (models.Comment, error)
+	CreateComment(input models.CreateCommentInput, userID uint) (models.Comment, error)
 	UpdateComment(inputID uint, inputData models.UpdateCommentInput) (models.Comment, error)
 	GetCommentByID(commentID uint) (models.Comment, error)
 	GetComments() ([]models.Comment, error)
@@ -24,10 +24,10 @@ func NewCommentService(repository repositories.CommentRepository) *commentServic
 	return &commentService{repository}
 }
 
-func (s *commentService) CreateComment(input models.CreateCommentInput) (models.Comment, error) {
+func (s *commentService) CreateComment(input models.CreateCommentInput, userID uint) (models.Comment, error) {
 	comment := models.Comment{}
 
-	comment.UserID = input.UserID
+	comment.UserID = userID
 	comment.PhotoID = input.PhotoID
 	comment.Message = input.Message
 

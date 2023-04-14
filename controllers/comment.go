@@ -32,7 +32,6 @@ func (c *commentController) CreateComment(ctx *gin.Context) {
 	userID := uint(userData["user_id"].(float64))
 
 	var input models.CreateCommentInput
-	input.UserID = userID
 
 	err := ctx.ShouldBindJSON(&input)
 	if err != nil {
@@ -43,7 +42,7 @@ func (c *commentController) CreateComment(ctx *gin.Context) {
 		return
 	}
 
-	newComment, err := c.service.CreateComment(input)
+	newComment, err := c.service.CreateComment(input, userID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"messsage": "Internal server error",

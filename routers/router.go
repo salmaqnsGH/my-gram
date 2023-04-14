@@ -53,34 +53,34 @@ func New(db *gorm.DB) *gin.Engine {
 
 	photoRouter := r.Group("photos")
 	{
-		photoRouter.Use(middlewares.AuthMiddleware())
+		photoRouter.Use(middlewares.Authentication())
 		photoRouter.POST("/", photoController.CreatePhoto)
 		photoRouter.GET("/", photoController.GetPhotos)
 		photoRouter.GET("/user", photoController.GetPhotosByUserID)
 		photoRouter.GET("/:photoID", photoController.GetPhotoByID)
-		photoRouter.PUT("/:photoID", photoController.UpdatePhoto)
-		photoRouter.DELETE("/:photoID", photoController.DeletePhoto)
+		photoRouter.PUT("/:photoID", middlewares.PhotoAuthorization(photoService), photoController.UpdatePhoto)
+		photoRouter.DELETE("/:photoID", middlewares.PhotoAuthorization(photoService), photoController.DeletePhoto)
 	}
 
 	commentRouter := r.Group("comments")
 	{
-		commentRouter.Use(middlewares.AuthMiddleware())
+		commentRouter.Use(middlewares.Authentication())
 		commentRouter.POST("/", commentController.CreateComment)
 		commentRouter.GET("/", commentController.GetComments)
 		commentRouter.GET("/:commentID", commentController.GetCommentByID)
 		commentRouter.GET("/photo/:photoID", commentController.GetCommentsByPhotoID)
-		commentRouter.PUT("/:commentID", commentController.UpdateComment)
-		commentRouter.DELETE("/:commentID", commentController.DeleteComment)
+		commentRouter.PUT("/:commentID", middlewares.CommentAuthorization(commentService), commentController.UpdateComment)
+		commentRouter.DELETE("/:commentID", middlewares.CommentAuthorization(commentService), commentController.DeleteComment)
 	}
 
 	socialMediaRouter := r.Group("social-medias")
 	{
-		socialMediaRouter.Use(middlewares.AuthMiddleware())
+		socialMediaRouter.Use(middlewares.Authentication())
 		socialMediaRouter.POST("/", socialMediaController.CreateSocialMedia)
 		socialMediaRouter.GET("/", socialMediaController.GetSocialMedias)
 		socialMediaRouter.GET("/:id", socialMediaController.GetSocialMediaByID)
-		socialMediaRouter.PUT("/:id", socialMediaController.UpdateSocialMedia)
-		socialMediaRouter.DELETE("/:id", socialMediaController.DeleteSocialMedia)
+		socialMediaRouter.PUT("/:id", middlewares.SocialMediaAuthorization(socialMediaService), socialMediaController.UpdateSocialMedia)
+		socialMediaRouter.DELETE("/:id", middlewares.SocialMediaAuthorization(socialMediaService), socialMediaController.DeleteSocialMedia)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

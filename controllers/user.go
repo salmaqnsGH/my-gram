@@ -58,27 +58,24 @@ func (c *userController) LoginUser(ctx *gin.Context) {
 		return
 	}
 
-	password := user.Password
-
-	user, err = c.service.GetUserByEmail(user.Email)
+	existUser, err := c.service.GetUserByEmail(user.Email)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"messsage": "Failed to login",
-			"error":    err.Error(),
+			"messsage": "Bad request",
+			"error":    "Invalid email/password",
 		})
 		return
 	}
 
-	if !utils.PasswordValid(user.Password, password) {
-		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"messsage": "Bad request",
-				"error":    err.Error(),
-			})
-			return
-		}
+	if !utils.PasswordValid(existUser.Password, user.Password) {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"messsage": "Bad request",
+			"error":    "Invalid email/password",
+		})
+		return
 	}
-	token, err := utils.GenerateToken(user.ID, user.Email)
+
+	token, err := utils.GenerateToken(existUser.ID, existUser.Email)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"messsage": "Bad request",

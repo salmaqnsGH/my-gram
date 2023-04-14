@@ -3,6 +3,7 @@ package controllers
 import (
 	"my-gram/models"
 	"my-gram/services"
+	"my-gram/utils"
 	"net/http"
 	"strconv"
 
@@ -35,19 +36,13 @@ func (c *socialMediaController) CreateSocialMedia(ctx *gin.Context) {
 
 	err := ctx.ShouldBindJSON(&input)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	newSocialMedia, err := c.service.CreateSocialMedia(input, userID)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
@@ -66,19 +61,13 @@ func (c *socialMediaController) CreateSocialMedia(ctx *gin.Context) {
 func (c *socialMediaController) GetSocialMediaByID(ctx *gin.Context) {
 	inputID, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	socialMedia, err := c.service.GetSocialMediaByID(uint(inputID))
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusNotFound, utils.ErrResponse(http.StatusNotFound, err.Error(), "Not Found"))
 		return
 	}
 
@@ -98,29 +87,34 @@ func (c *socialMediaController) GetSocialMediaByID(ctx *gin.Context) {
 func (c *socialMediaController) UpdateSocialMedia(ctx *gin.Context) {
 	inputID, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
+		return
+	}
+
+	existingSocialMedia, err := c.service.GetSocialMediaByID(uint(inputID))
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, utils.ErrResponse(http.StatusNotFound, err.Error(), "Not Found"))
 		return
 	}
 
 	var inputData models.UpdateSocialMediaInput
+
 	err = ctx.ShouldBindJSON(&inputData)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
+	}
+
+	if inputData.Name == "" {
+		inputData.Name = existingSocialMedia.Name
+	}
+	if inputData.SocialMediaUrl == "" {
+		inputData.SocialMediaUrl = existingSocialMedia.SocialMediaUrl
 	}
 
 	updatedComment, err := c.service.UpdateSocialMedia(uint(inputID), inputData)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
@@ -138,10 +132,7 @@ func (c *socialMediaController) UpdateSocialMedia(ctx *gin.Context) {
 func (c *socialMediaController) GetSocialMedias(ctx *gin.Context) {
 	socialMedias, err := c.service.GetSocialMedias()
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
@@ -161,19 +152,13 @@ func (c *socialMediaController) DeleteSocialMedia(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	err = c.service.DeleteSocialMedia(uint(id))
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusNotFound, utils.ErrResponse(http.StatusNotFound, err.Error(), "Not Found"))
 		return
 	}
 

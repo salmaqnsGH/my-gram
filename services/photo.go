@@ -8,10 +8,10 @@ import (
 )
 
 type PhotoService interface {
-	CreatePhoto(input models.CreatePhotoInput) (models.Photo, error)
+	CreatePhoto(input models.CreatePhotoInput, userID uint) (models.Photo, error)
 	GetPhotos() ([]models.Photo, error)
 	GetPhotosByUserID(userID uint) ([]models.Photo, error)
-	UpdatePhoto(ID uint, input models.Photo) (models.Photo, error)
+	UpdatePhoto(photoID uint, userID uint, input models.UpdatePhotoInput) (models.Photo, error)
 	GetPhotoByID(ID uint) (models.Photo, error)
 	DeletePhoto(ID uint) error
 }
@@ -24,10 +24,10 @@ func NewPhotoService(repository repositories.PhotoRepository) *photoService {
 	return &photoService{repository}
 }
 
-func (s *photoService) CreatePhoto(input models.CreatePhotoInput) (models.Photo, error) {
+func (s *photoService) CreatePhoto(input models.CreatePhotoInput, userID uint) (models.Photo, error) {
 	photo := models.Photo{}
 
-	photo.UserID = input.UserID
+	photo.UserID = userID
 	photo.Title = input.Title
 	photo.PhotoUrl = input.PhotoUrl
 	photo.Caption = input.Caption
@@ -58,8 +58,8 @@ func (s *photoService) GetPhotosByUserID(userID uint) ([]models.Photo, error) {
 	return photos, nil
 }
 
-func (s *photoService) UpdatePhoto(ID uint, input models.Photo) (models.Photo, error) {
-	photo, err := s.repository.FindByID(ID)
+func (s *photoService) UpdatePhoto(photoID uint, userID uint, input models.UpdatePhotoInput) (models.Photo, error) {
+	photo, err := s.repository.FindByID(photoID)
 	if err != nil {
 		return photo, err
 	}
@@ -73,8 +73,8 @@ func (s *photoService) UpdatePhoto(ID uint, input models.Photo) (models.Photo, e
 
 	photo.Caption = input.Caption
 	photo.Title = input.Title
-	photo.UserID = input.UserID
 	photo.PhotoUrl = input.PhotoUrl
+	photo.UserID = userID
 	photo.UpdatedAt = t
 
 	updatedPhoto, err := s.repository.Update(photo)

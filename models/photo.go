@@ -17,7 +17,12 @@ type Photo struct {
 }
 
 type CreatePhotoInput struct {
-	UserID   uint   `form:"user_id"`
+	Title    string `form:"title" validate:"required"`
+	Caption  string `form:"caption"`
+	PhotoUrl string `form:"photo_url" validate:"required"`
+}
+
+type UpdatePhotoInput struct {
 	Title    string `form:"title" validate:"required"`
 	Caption  string `form:"caption"`
 	PhotoUrl string `form:"photo_url" validate:"required"`

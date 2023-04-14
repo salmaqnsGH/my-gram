@@ -59,9 +59,8 @@ func (c *photoController) CreatePhoto(ctx *gin.Context) {
 	input.PhotoUrl = path
 	input.Title = ctx.PostForm("title")
 	input.Caption = ctx.PostForm("caption")
-	input.UserID = userID
 
-	newPhoto, err := c.service.CreatePhoto(input)
+	newPhoto, err := c.service.CreatePhoto(input, userID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"messsage": "Internal server error",
@@ -133,7 +132,7 @@ func (c *photoController) UpdatePhoto(ctx *gin.Context) {
 
 	photoIDInt, err := strconv.Atoi(ctx.Param("photoID"))
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, errors.New("Invalid product ID"))
+		ctx.AbortWithError(http.StatusBadRequest, errors.New("Invalid photo ID"))
 		return
 	}
 	photoID := uint(photoIDInt)
@@ -180,13 +179,12 @@ func (c *photoController) UpdatePhoto(ctx *gin.Context) {
 		caption = existingPhoto.Caption
 	}
 
-	var photo models.Photo
+	var photo models.UpdatePhotoInput
 	photo.PhotoUrl = path
 	photo.Title = title
 	photo.Caption = caption
-	photo.UserID = userID
 
-	updatedPhoto, err := c.service.UpdatePhoto(photoID, photo)
+	updatedPhoto, err := c.service.UpdatePhoto(photoID, userID, photo)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"messsage": "Internal server error",

@@ -39,6 +39,7 @@ func (c *userController) RegisterUser(ctx *gin.Context) {
 	}
 
 	responseUser := models.RegisterUserResponse{}
+	responseUser.ID = newUser.ID
 	responseUser.Username = newUser.Username
 	responseUser.Email = newUser.Email
 	responseUser.Age = newUser.Age

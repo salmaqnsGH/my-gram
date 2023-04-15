@@ -3,6 +3,7 @@ package controllers
 import (
 	"my-gram/models"
 	"my-gram/services"
+	"my-gram/utils"
 	"net/http"
 	"strconv"
 
@@ -36,19 +37,13 @@ func (c *commentController) CreateComment(ctx *gin.Context) {
 
 	err := ctx.ShouldBindJSON(&input)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	newComment, err := c.service.CreateComment(input, userID)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(http.StatusInternalServerError, err.Error(), "Internal Server Error"))
 		return
 	}
 
@@ -69,29 +64,20 @@ func (c *commentController) CreateComment(ctx *gin.Context) {
 func (c *commentController) UpdateComment(ctx *gin.Context) {
 	inputID, err := strconv.Atoi(ctx.Param("commentID"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	var inputData models.UpdateCommentInput
 	err = ctx.ShouldBindJSON(&inputData)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	updatedComment, err := c.service.UpdateComment(uint(inputID), inputData)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(http.StatusInternalServerError, err.Error(), "Internal Server Error"))
 		return
 	}
 
@@ -111,19 +97,13 @@ func (c *commentController) UpdateComment(ctx *gin.Context) {
 func (c *commentController) GetCommentByID(ctx *gin.Context) {
 	inputID, err := strconv.Atoi(ctx.Param("commentID"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	comment, err := c.service.GetCommentByID(uint(inputID))
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusNotFound, utils.ErrResponse(http.StatusNotFound, err.Error(), "Not Found"))
 		return
 	}
 
@@ -142,10 +122,7 @@ func (c *commentController) GetCommentByID(ctx *gin.Context) {
 func (c *commentController) GetComments(ctx *gin.Context) {
 	comments, err := c.service.GetComments()
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(http.StatusInternalServerError, err.Error(), "Internal Server Error"))
 		return
 	}
 
@@ -165,19 +142,13 @@ func (c *commentController) GetComments(ctx *gin.Context) {
 func (c *commentController) GetCommentsByPhotoID(ctx *gin.Context) {
 	inputID, err := strconv.Atoi(ctx.Param("photoID"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	comments, err := c.service.GetCommentsByPhotoID(uint(inputID))
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusNotFound, utils.ErrResponse(http.StatusNotFound, err.Error(), "Not Found"))
 		return
 	}
 
@@ -197,19 +168,13 @@ func (c *commentController) GetCommentsByPhotoID(ctx *gin.Context) {
 func (c *commentController) DeleteComment(ctx *gin.Context) {
 	commentID, err := strconv.Atoi(ctx.Param("commentID"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"messsage": "Bad request",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusBadRequest, utils.ErrResponse(http.StatusBadRequest, err.Error(), "Bad Request"))
 		return
 	}
 
 	err = c.service.DeleteComment(uint(commentID))
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"messsage": "Internal server error",
-			"error":    err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(http.StatusInternalServerError, err.Error(), "Internal Server Error"))
 		return
 	}
 

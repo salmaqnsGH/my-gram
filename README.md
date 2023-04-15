@@ -5,6 +5,10 @@ MyGram is a final project from DTS Kominfo FGA, to build instagram clone API tha
 ## Table of Contents
 
 - [Requirements](#requirements)
+- [Instalation](#instalation)
+- [API Documentation](#api-documentation)
+  - [Postman Documentation](#postman-documentation)
+  - [Swagger Documentation](#swagger-documentation)
 - [ERD (Entity Relationship Diagram)](#erd-entity-relationship-diagram)
 - [Endpoints](#endpoints)
   - [User](#user)
@@ -16,6 +20,62 @@ MyGram is a final project from DTS Kominfo FGA, to build instagram clone API tha
 
 - Go version 1.15 or higher
 - PostgreSQL (13 or higher)
+
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/salmaqnsGH/my-gram.git
+   ```
+
+2. Change to the project directory:
+    ```bash
+    cd my-gram
+    ```
+3. Open the `.env` file and update the necessary environment variables.
+    * PORT
+      - Example: `PORT=3000` means the application will listen on port 3000 for incoming requests.
+
+    * DB_HOST
+      - Example: `DB_HOST=localhost` or `DB_HOST=127.0.0.1` for a local database server.
+
+    * DB_USER
+      - Example: `DB_USER=mygram_user` for the database user.
+
+    * DB_PASSWORD
+      - Example: `DB_PASSWORD=myp@ssword` for the database password.
+
+    * DB_PORT
+      - Example: `DB_PORT=5432` for the default PostgreSQL port.
+
+    * DB_NAME
+      - Example: `DB_NAME=mygram_db` for the database name.
+
+    * DEBUG_MODE
+      - Example: `DEBUG_MODE=false` to disable debug mode or `DEBUG_MODE=true` to enable debug mode.
+
+4. Install the dependencies:
+    ```bash
+    go get
+    ```
+
+5. Run the application:
+    ```bash
+    go run main.go
+    ```
+## API Documentation
+### Postman Documentation
+
+The Postman documentation for MyGram can be found here https://documenter.getpostman.com/view/14858801/2s93Xx1Q6f
+ It provides detailed information on how to interact with the API endpoints using Postman.
+
+### Swagger Documentation
+MyGram also includes Swagger documentation that provides a graphical interface to explore and interact with
+1. Make sure that you have already installed and running the MyGram application
+
+2. Open a web browser and go to the Swagger URL for MyGram, at http://localhost:3000/swagger/index.html if you are running the application locally on your machine.
 
 ## ERD (Entity Relationship Diagram)
 
@@ -100,30 +160,7 @@ MyGram is a final project from DTS Kominfo FGA, to build instagram clone API tha
   Delete a comment.
 
 
-## Installation
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/salmaqnsGH/my-gram.git
-   ```
-
-2. Change to the project directory:
-    ```bash
-    cd my-gram
-    ```
-
-3. Install the dependencies:
-    ```bash
-    go get
-    ```
-
-4. Run the application:
-    ```bash
-    go run main.go
-    ```
-
-5. Access the application at http://localhost:3000 in your web browser.
 
 ##Acknowledgements
 This project uses the following third-party libraries:

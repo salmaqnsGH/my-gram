@@ -35,26 +35,19 @@ MyGram is a final project from DTS Kominfo FGA, to build instagram clone API tha
     cd my-gram
     ```
 3. Open the `.env` file and update the necessary environment variables.
-    * PORT
-      - Example: `PORT=3000` means the application will listen on port 3000 for incoming requests.
+    * PORT example: `PORT=3000` means the application will listen on port 3000 for incoming requests.
 
-    * DB_HOST
-      - Example: `DB_HOST=localhost` or `DB_HOST=127.0.0.1` for a local database server.
+    * DB_HOST example: `DB_HOST=localhost` or `DB_HOST=127.0.0.1` for a local database server.
 
-    * DB_USER
-      - Example: `DB_USER=mygram_user` for the database user.
+    * DB_USER example: `DB_USER=mygram_user` for the database user.
 
-    * DB_PASSWORD
-      - Example: `DB_PASSWORD=myp@ssword` for the database password.
+    * DB_PASSWORD example: `DB_PASSWORD=myp@ssword` for the database password.
 
-    * DB_PORT
-      - Example: `DB_PORT=5432` for the default PostgreSQL port.
+    * DB_PORT example: `DB_PORT=5432` for the default PostgreSQL port.
 
-    * DB_NAME
-      - Example: `DB_NAME=mygram_db` for the database name.
+    * DB_NAME example: `DB_NAME=mygram_db` for the database name.
 
-    * DEBUG_MODE
-      - Example: `DEBUG_MODE=false` to disable debug mode or `DEBUG_MODE=true` to enable debug mode.
+    * DEBUG_MODE example: `DEBUG_MODE=false` to disable debug mode or `DEBUG_MODE=true` to enable debug mode.
 
 4. Install the dependencies:
     ```bash
@@ -162,7 +155,7 @@ MyGram also includes Swagger documentation that provides a graphical interface t
 
 
 
-##Acknowledgements
+## Acknowledgements
 This project uses the following third-party libraries:
 
 * Gin Gonic framework (github.com/gin-gonic/gin)

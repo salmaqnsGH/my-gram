@@ -68,7 +68,9 @@ The Postman documentation for MyGram can be found here https://documenter.getpos
 MyGram also includes Swagger documentation that provides a graphical interface to explore and interact with
 1. Make sure that you have already installed and running the MyGram application
 
-2. Open a web browser and go to the Swagger URL for MyGram, at http://localhost:3000/swagger/index.html if you are running the application locally on your machine.
+2. Run the application
+
+3. Open a web browser and go to the Swagger URL for MyGram, at http://localhost:3000/swagger/index.html if you are running the application locally on your machine.
 
 ## ERD (Entity Relationship Diagram)
 

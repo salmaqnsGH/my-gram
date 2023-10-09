@@ -1,5 +1,5 @@
 # MyGram
-
+![ERD](./docs/dts.png)
 MyGram is a final project from DTS Kominfo FGA, to build instagram clone API that allows users to store and comment on photos of other users. It is built using the Gin Gonic framework and Gorm ORM in Go.
 
 ## Table of Contents
